@@ -91,7 +91,7 @@ public class Main {
 //            example of valid passwords are John@123, John&035
             if (!password.matches("^\\w+[@&]\\d+$")) {
                 System.out.println("""
-                        Your password must initiate with an alphabets followed
+                        Your password must initiate with an alphabet followed
                         by either one of [@,&] and ending with numbers.""");
                 continue;
             }
