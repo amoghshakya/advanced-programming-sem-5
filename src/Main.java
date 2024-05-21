@@ -21,7 +21,7 @@ public class Main {
                 String date = scanner.nextLine();
 
 //                Regular expression to match dd/mm/yyyy
-                if (!date.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                if (!date.matches("\\d{1,2}/\\d{1,2}/\\d{4}")) {
                     System.out.println("Invalid date format. Please make sure the date is in the format DD/MM/YYYY with no spaces.");
                     System.out.println("Please try again.");
                     continue;
@@ -71,7 +71,7 @@ public class Main {
         while (true) {
             System.out.print("Please enter your mobile number: ");
             String mobileNumber = scanner.nextLine();
-            if (mobileNumber.length() < 10) {
+            if (mobileNumber.length() != 10) {
                 System.out.println("Not a valid number. Please try again.");
                 continue;
             }
@@ -99,7 +99,7 @@ public class Main {
             System.out.print("Please confirm your password: ");
             String confirmPassword = scanner.nextLine();
 
-//                If passwords do not match
+//            If passwords do not match
             if (!confirmPassword.equals(password)) {
                 System.out.println("Your passwords do not match.");
                 System.out.println("Please try again.");
