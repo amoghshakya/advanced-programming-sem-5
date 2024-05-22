@@ -1,8 +1,10 @@
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        ArrayList<User> userList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("Please enter 1 for Sign up.");
@@ -40,11 +42,15 @@ public class Main {
                 }
 
                 User newUser = new User(userName, mobileNumber, password, date);
+                userList.add(newUser);
                 System.out.println("Sign up completed!");
                 System.out.println(newUser);
             } else if (userOption == 2) {
                 System.out.println("Thank you for using the application!");
                 scanner.close();
+                for (User user : userList) {
+                    System.out.println(user);
+                }
                 System.exit(0);
             } else {
                 System.out.println("Invalid option.");
