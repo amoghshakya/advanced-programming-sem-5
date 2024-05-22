@@ -1,4 +1,4 @@
-import java.util.Date;
+package WeeklyAssignment1;
 
 public class User {
     private String fullName;
@@ -15,7 +15,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "WeeklyAssignment1.User{" +
                 "fullName='" + fullName + '\'' +
                 ", mobileNumber='" + mobileNumber + '\'' +
                 ", password='" + password + '\'' +
