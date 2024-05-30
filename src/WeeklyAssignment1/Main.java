@@ -65,7 +65,7 @@ public class Main {
         while (true) {
             System.out.print("Please enter your full name: ");
             String userName = scanner.nextLine();
-            if (userName.length() <= 4) {
+            if (userName.length() < 4) {
                 System.out.println("Name too short. Is that your full name?");
                 continue;
             }
