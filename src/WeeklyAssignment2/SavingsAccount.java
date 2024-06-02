@@ -9,10 +9,10 @@ public class SavingsAccount extends Account {
 
 
     public double calculateMonthlyInterest() {
-        double interest = this.getBalance() * INTEREST_RATE;
+        double interest = (this.getBalance() * INTEREST_RATE) / 12;
 //        do we deposit the interest when we calculate the interest?
 //        this.deposit(interest);
-        System.out.printf("$%.2f has been accrued to your account.\n", interest);
+        System.out.printf("Your new balance is $%.2f.\n", this.getBalance() + interest);
         return interest;
     }
 
