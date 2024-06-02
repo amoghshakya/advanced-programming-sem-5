@@ -1,6 +1,10 @@
 package WeeklyAssignment2;
 
+import WeeklyAssignment2.Exceptions.InvalidAccountNumberException;
+import WeeklyAssignment2.Exceptions.UserNotFoundException;
+
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -17,30 +21,37 @@ public class Main {
 
             switch (choice) {
                 case 1:
+                    System.out.println("Create a new account.");
                     createAccount();
                     break;
 
                 case 2:
+                    System.out.println("Deposit sum");
                     deposit();
                     break;
 
                 case 3:
+                    System.out.println("Withdraw sum");
                     withdraw();
                     break;
 
                 case 4:
+                    System.out.println("Display account info");
                     displayAccountInfo();
                     break;
 
                 case 5:
+                    System.out.println("Calculate interest");
                     calculateInterest();
                     break;
 
                 case 6:
+                    System.out.println("User authentication");
                     authenticateUser();
                     break;
 
                 case 7:
+                    System.out.println("Bye bye!");
                     System.exit(0);
 
                 default:
@@ -61,6 +72,11 @@ public class Main {
         System.out.println("7. Exit");
 
         System.out.print("Enter your choice: ");
+    }
+
+    //    util method
+    private static Customer getCustomer(int accountNumber) {
+        return customers.get(accountNumber);
     }
 
     private static void createAccount() {
@@ -100,73 +116,126 @@ public class Main {
 
     private static void deposit() {
         System.out.print("Enter account number: ");
-        int accountNumber = scanner.nextInt();
-        if (customers.containsKey(accountNumber)) {
-            Customer customer = customers.get(accountNumber);
-            if (!customer.authenticateCustomer()) {
-                System.out.println("Invalid PIN. Unauthorized.");
-                return;
+        int accountNumber;
+        try {
+            try {
+                accountNumber = scanner.nextInt(); // may throw InputMismatchException
+            } catch (InputMismatchException e) {
+//                we catch the InputMismatchException so that we can throw our custom exception
+//                could there be any better approaches?
+                throw new InvalidAccountNumberException();
             }
-            System.out.print("Enter amount to deposit: ");
-            double amount = scanner.nextDouble();
-            customer.getAccount().deposit(amount);
-        } else {
-            System.out.println("Account not found.");
+            if (customers.containsKey(accountNumber)) {
+                Customer customer = getCustomer(accountNumber);
+                if (!customer.authenticateCustomer()) {
+                    System.out.println("Invalid PIN. Unauthorized.");
+                    return;
+                }
+                System.out.print("Enter amount to deposit: ");
+                double amount = scanner.nextDouble();
+                customer.getAccount().deposit(amount);
+            } else {
+                throw new UserNotFoundException();
+            }
+        } catch (UserNotFoundException | InvalidAccountNumberException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     private static void withdraw() {
         System.out.print("Enter account number: ");
-        int accountNumber = scanner.nextInt();
-        if (customers.containsKey(accountNumber)) {
-            Customer customer = customers.get(accountNumber);
-            if (!customer.authenticateCustomer()) {
-                System.out.println("Invalid PIN. Unauthorized.");
-                return;
+        int accountNumber;
+        try {
+            try {
+                accountNumber = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                throw new InvalidAccountNumberException();
             }
-            System.out.print("Enter amount to withdraw: ");
-            double amount = scanner.nextDouble();
-            customer.getAccount().withdraw(amount);
-        } else {
-            System.out.println("Account not found.");
+            if (customers.containsKey(accountNumber)) {
+                Customer customer = getCustomer(accountNumber);
+                if (!customer.authenticateCustomer()) {
+                    System.out.println("Invalid PIN. Unauthorized.");
+                    return;
+                }
+                System.out.print("Enter amount to withdraw: ");
+                double amount = scanner.nextDouble();
+                customer.getAccount().withdraw(amount);
+            } else {
+                throw new UserNotFoundException();
+            }
+        } catch (UserNotFoundException | InvalidAccountNumberException e) {
+            System.out.println(e.getMessage());
         }
     }
 
+
     private static void displayAccountInfo() {
         System.out.print("Enter account number: ");
-        int accountNumber = scanner.nextInt();
-        if (customers.containsKey(accountNumber)) {
-            Customer customer = customers.get(accountNumber);
-            if (!customer.authenticateCustomer()) {
-                System.out.println("Invalid PIN. Unauthorized.");
-                return;
+        int accountNumber;
+
+        try {
+            try {
+                accountNumber = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                throw new InvalidAccountNumberException();
             }
-            customer.getAccount().displayAccountInfo();
-        } else {
-            System.out.println("Account not found.");
+            if (customers.containsKey(accountNumber)) {
+                Customer customer = getCustomer(accountNumber);
+                if (!customer.authenticateCustomer()) {
+                    System.out.println("Invalid PIN. Unauthorized.");
+                    return;
+                }
+                customer.getAccount().displayAccountInfo();
+            } else {
+                throw new UserNotFoundException();
+            }
+        } catch (UserNotFoundException | InvalidAccountNumberException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     private static void calculateInterest() {
         System.out.print("Enter account number: ");
-        int accountNumber = scanner.nextInt();
-        if (customers.containsKey(accountNumber)) {
-            double interest = customers.get(accountNumber).getAccount().calculateMonthlyInterest();
-            System.out.printf("Your interest is $%.2f.\n", interest);
+        int accountNumber;
+        try {
+            try {
+                accountNumber = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                throw new InvalidAccountNumberException();
+            }
+            if (customers.containsKey(accountNumber)) {
+                double interest = customers.get(accountNumber).getAccount().calculateMonthlyInterest();
+                System.out.printf("Your interest is $%.2f.\n", interest);
+            } else {
+                throw new UserNotFoundException();
+            }
+        } catch (UserNotFoundException | InvalidAccountNumberException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     private static void authenticateUser() {
         System.out.print("Enter account number: ");
-        int accountNumber = scanner.nextInt();
-
-        if (customers.containsKey(accountNumber)) {
-            boolean authenticated = customers.get(accountNumber).authenticateCustomer();
-            if (!authenticated) {
-                System.out.println("Invalid PIN. Unauthorized.");
-                return;
+        int accountNumber;
+        try {
+            try {
+                accountNumber = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                throw new InvalidAccountNumberException();
             }
-            System.out.println("Authentication successful!");
+
+            if (customers.containsKey(accountNumber)) {
+                boolean authenticated = customers.get(accountNumber).authenticateCustomer();
+                if (!authenticated) {
+                    System.out.println("Invalid PIN. Unauthorized.");
+                    return;
+                }
+                System.out.println("Authentication successful!");
+            } else {
+                throw new UserNotFoundException();
+            }
+        } catch (UserNotFoundException | InvalidAccountNumberException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

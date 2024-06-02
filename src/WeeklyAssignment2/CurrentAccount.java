@@ -14,11 +14,6 @@ public class CurrentAccount extends Account {
 
     @Override
     public String toString() {
-        return "CurrentAccount{" +
-                "accountNumber='" + this.getAccountNumber() + '\'' +
-                ", accountHolder='" + this.getAccountHolder() + '\'' +
-                ", balance=" + this.getBalance() +
-                ", accountType= Current" +
-                '}';
+        return String.format("Account number: \t%d\nAccount holder: \t%s\nAccount balance: \t$%.2f\n", getAccountNumber(), getAccountHolder(), getBalance());
     }
 }
