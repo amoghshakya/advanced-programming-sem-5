@@ -80,38 +80,42 @@ public class Main {
     }
 
     private static void createAccount() {
-        Account newAccount;
+        try {
+            Account newAccount;
 
-        System.out.print("Enter name: ");
-        String name = scanner.nextLine();
+            System.out.print("Enter name: ");
+            String name = scanner.nextLine();
 
-        System.out.print("Enter initial balance: ");
-        double balance = scanner.nextDouble();
-        scanner.nextLine();
+            System.out.print("Enter initial balance: ");
+            double balance = scanner.nextDouble();
+            scanner.nextLine();
 
-        System.out.println("Enter account type (Saving/Current): ");
-        System.out.println("1. Savings");
-        System.out.println("2. Current");
-        System.out.print("Enter your choice: ");
-        int type = scanner.nextInt();
+            System.out.println("Enter account type (Saving/Current): ");
+            System.out.println("1. Savings");
+            System.out.println("2. Current");
+            System.out.print("Enter your choice: ");
+            int type = scanner.nextInt();
 
-        if (type == 1) {
-            newAccount = new SavingsAccount(name, balance);
-        } else if (type == 2) {
-            newAccount = new CurrentAccount(name, balance);
-        } else {
-            System.out.println("Invalid value. Aborting process.");
-            return;
+            if (type == 1) {
+                newAccount = new SavingsAccount(name, balance);
+            } else if (type == 2) {
+                newAccount = new CurrentAccount(name, balance);
+            } else {
+                System.out.println("Invalid value. Aborting process.");
+                return;
+            }
+
+            System.out.print("Enter new PIN for your account: ");
+            int pin = scanner.nextInt();
+
+            Customer customer = new Customer(name, pin, newAccount);
+            customers.put(newAccount.getAccountNumber(), customer);
+
+            System.out.println("Account created successfully.");
+            System.out.println("Your account no. is: " + newAccount.getAccountNumber());
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid Input. Please enter numbers.");
         }
-
-        System.out.print("Enter new PIN for your account: ");
-        int pin = scanner.nextInt();
-
-        Customer customer = new Customer(name, pin, newAccount);
-        customers.put(newAccount.getAccountNumber(), customer);
-
-        System.out.println("Account created successfully.");
-        System.out.println("Your account no. is: " + newAccount.getAccountNumber());
     }
 
     private static void deposit() {

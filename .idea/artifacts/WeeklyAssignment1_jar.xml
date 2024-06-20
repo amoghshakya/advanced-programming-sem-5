@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WeeklyAssignment1:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/WeeklyAssignment1_jar</output-path>
+    <root id="archive" name="WeeklyAssignment1.jar">
+      <element id="module-output" name="Advanced Programming Sem 4" />
+    </root>
+  </artifact>
+</component>
